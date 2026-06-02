@@ -1,0 +1,19 @@
+<!-- Contenedor principal de la tarjeta con estilos diferentes dependiendo del valor de elevación -->
+<div [class]="cardClasses()">
+
+    <!-- Header interactivo: Permite hacer click y cambia el color del fondo -->
+    <div (click)="handleHeaderClicked()" class= "p-5 border-b border-spaceLight cursor-pointer hover:bg-spaceLight/10 transition-colors duration-200">
+       <h3 class="font-orbitron text-lg font-bold tracking-wide text-portal">{{title()}}</h3>
+
+       <!-- Muestra el subtitulo de apoyo unicamente si tiene un valor -->
+       @if (subtitle()){
+        <p class="font-exo text-xs text-gray-400 mt-1">{{subtitle()}}</p>
+        }
+    </div>
+
+    <!-- Sección donde se puede ingresar cualquier tipo de información  -->
+    <div class="font-exo p-6 text-gray-200">
+        <!-- Inyección dinámica de contenido -->
+        <ng-content></ng-content>
+    </div>
+</div>
