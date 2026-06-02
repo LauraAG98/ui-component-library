@@ -1,0 +1,63 @@
+<!-- Contenedor principal de la tabla -->
+ <div class = "w-full overflow-x-auto rounded-xl border-2 border-spaceLight">
+
+    <table class = "w-full text-left">
+        <!-- Encabezados -->
+         <thead class = "bg-spaceLight">
+            <tr>
+                @for (col of columns(); track col.key){
+                    <th class = "font-orbitron text-xs text-portal px-4 py-3 tracking-wide">
+                        {{col.header}}
+                    </th>    
+                }
+
+                <th class = "font-orbitron text-xs text-portal px-4 py-3 tracking-wide">Acciones</th>  
+            </tr>
+         </thead>
+
+         <tbody>
+            <!-- Estado loading: skeleton rows -->
+             @if(loading()){
+                @for (i of [1,2,3,4,5]; track i){
+                    <tr class = "border-t border-spaceLight">
+                        @for (col of columns(); track col.key){
+                            <td class = "px-4 py-3">
+                                <div class = "h-4 bg-spaceLight rounded animate-pulse"></div>
+                            </td>
+                        }
+                    </tr>    
+                }
+
+            <!-- Estado de error -->
+            }@else if(errorMessage() !== null){
+                <tr>
+                    <td [attr.colspan]="columns().length + 1" class = "text-center py-12">
+                        <p class = "font-orbitron text-danger text-sm">{{errorMessage()}}</p>
+                    </td>
+                </tr>
+            <!-- Estado empty -->
+            }@else if(rows().length === 0){
+                <tr>
+                    <td [attr.colspan]="columns().length + 1" class = "text-center py-12">
+                        <p class = "font-orbitron text-gray-400 text-sm">{{emptyMessage()}}</p>
+                    </td>
+                </tr>
+            <!-- Estado empty -->
+            }@else{
+                 @for (row of rows(); track $index){
+                <tr class = "border-t border-spaceLight hover:bg-spaceLight/30 transition-colors duration-200">
+                    @for (col of columns(); track col.key){
+                        <td class = "font-exo text-gray-200 px-4 py-3 text-sm">
+                            {{row[col.key]}}
+                        </td>
+                    }
+                    <td class = "px-4 py-3 flex gap-2">
+                        <button (click) = "actionTriggered.emit({ action: 'view', row })" class = "font-orbitron text-xs text-portal border border-portal px-2 py-1 rounded hover:bg-portal/10 transition-colors duration-200">Ver</button>
+                        <button (click) = "actionTriggered.emit({ action: 'delete', row })" class = "font-orbitron text-xs text-danger border border-danger px-2 py-1 rounded hover:bg-danger/10 transition-colors duration-200">Eliminar</button>
+                    </td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>
+</div>
