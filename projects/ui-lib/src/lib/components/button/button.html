@@ -1,0 +1,14 @@
+<!-- Deshabilita el botón si esta en estado de carga o bloqueado -->
+ <!-- Se ejecuta la lógica del botón cada vez que se haga click -->
+  <!-- Se aplican los estilos dependiendo de los valores y el tamaño -->
+<button [disabled]="disabled() || loading()"
+    (click)="handleClick()"
+    [class]="variantClasses() + ' ' + sizeClasses()"
+    class="font-orbitron flex items-center justify-center gap-2 rounded transition-all duration-200 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed">
+
+    <!-- Muestra al usuario que la acción esta en proceso -->
+    @if (loading()){
+        <span class="w-4 h-4 border-current border-t-transparent rounded-full animate-spin"></span> 
+    }
+    {{label()}}
+</button>
