@@ -15,6 +15,7 @@
         label="¿Qué deseas buscar?"
         placeholder="Selecciona una categoría..."
         [options]="resourceOptions"
+        [value]="activeResource()"
         (selectionChange) = "onResourceChange($event)">
       </ui-select>
 
@@ -40,10 +41,25 @@
 
    <!-- Modal -->
     @if(selectedRow()){
-      <div class = "fixed inset-0 bg-black/70 flex items-center justify-center z-50 p-4">
-        <div class = "w-full max-w-lg">
+      <div class = "fixed inset-0 bg-black/70 flex items-center justify-center z-50 p-4" (click) = "closeModal()">
+        <div class = "w-full max-w-lg" (click) = "$event.stopPropagation()">
           <ui-card title="Detalle" elevation="raised">
-            <pre class = "text-gray-200 text-xs overflow-auto max-h-96">{{selectedRow() | json}}</pre>
+
+            <div class = "flex flex-col gap-2 max-h-[80vh] overflow-y-auto pr-2">
+              @if(selectedRow()!['image']) {
+                <img [src] = "selectedRow()!['image']" class = "w-20 h-20 rounded-full border-2 border-portal mb-4">
+              }
+
+              @for(entry of objectEntries(selectedRow()!); track entry [0]){
+                @if(!isObject(entry[1]) && entry[1] !== ''){
+                  <div class = "flex gap-2">
+                    <span class = "font-orbitron text-xs text-portal min-w-32">{{getLabel (entry[0])}}</span>
+                    <span class = "font-exo text-sm text-gray-200">{{entry[1]}}</span>
+                  </div>
+                }
+              }
+            </div>
+
             <div class = "mt-4">
               <ui-button label="Cerrar" variant="secondary" (clicked)="closeModal()"></ui-button>
             </div>
