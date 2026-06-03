@@ -20,7 +20,7 @@ export class ExplorerService {
   statusFilter = signal<string>('');
 
   /** Lista de registros que se han cargado */
-  rows = signal<Character[] | Episode[] | Location[]>([]);
+  rows = signal<Record<string, unknown>[]>([]);
 
   /** Estado de carga */
   loading = signal<boolean>(false);
@@ -46,7 +46,7 @@ export class ExplorerService {
     ? `${this.API}/${resource}?status=${status}`
     : `${this.API}/${resource}`;
 
-    this.http.get<{ results: Character[] | Episode[] | Location[]}>(url).subscribe({
+    this.http.get<{ results: Record<string, unknown>[]}>(url).subscribe({
       next: (response)=>{
         this.rows.set(response.results);
         this.loading.set(false);

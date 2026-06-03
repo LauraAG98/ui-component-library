@@ -1,4 +1,4 @@
-import { Component, ChangeDetectionStrategy, inject, signal } from '@angular/core';
+import { Component, ChangeDetectionStrategy, inject, signal, computed } from '@angular/core';
 import { ExplorerService, ResourceType } from './services/explorer';
 import { ButtonComponent, CardComponent, SelectComponent, TableComponent, SelectOption, TableAction, TableColumn } from 'ui-lib';
 import { Character } from './models/character.interface';
@@ -26,20 +26,20 @@ export class App {
   activeResource = this.explorer.activeResource;
 
   /** Registro para mostrar en el modal */
-  selectedRow = signal<Character | Episode | Location | null>(null);
+  selectedRow = signal<Record<string, unknown> | null>(null);
 
   /** Opciones para el select de recurso */
   resourceOptions: SelectOption[] = [
-    {label: 'Characters', value: 'character'},
-    {label: 'Episodes', value: 'episode'},
-    {label: 'Locations', value: 'location'}
+    {label: 'Personajes', value: 'character'},
+    {label: 'Episodios', value: 'episode'},
+    {label: 'Ubicaciones', value: 'location'}
   ];
 
   /** Opciones para el filtro de status*/
   statusOptions: SelectOption[] = [
-    {label: 'Alive', value: 'Alive'},
-    {label: 'Dead', value: 'Dead'},
-    {label: 'Unknown', value: 'unknown'}
+    {label: 'Vivo', value: 'Alive'},
+    {label: 'Muerto', value: 'Dead'},
+    {label: 'Desconocido', value: 'unknown'}
   ];
 
   /** Cambia el recurso activo */
@@ -53,18 +53,41 @@ export class App {
   }
 
   /** Maneje las acciones de la tabla */
-  onActionTriggered(action: TableAction<Character | Episode | Location>): void {
+  onActionTriggered(action: TableAction<Record<string, unknown>>): void {
     if(action.action === 'view') {
       this.selectedRow.set(action.row);
     }
   }
 
   /**Columnas según el recurso que este activo */
-  columns: TableColumn[] = [
-    {key: 'name', header: 'Nombre'},
-    {key: 'status', header: 'Estado'},
-    {key: 'species', header: 'Especie'}
-  ]
+  columns = computed <TableColumn[]>(()=> {
+    switch (this.activeResource()) {
+      case 'character':
+        return [
+          {key: 'name', header: 'Nombre'},
+          {key: 'status', header: 'Estado'},
+          {key: 'species', header: 'Especie'}
+        ];
+        case 'episode':
+        return [
+          {key: 'name', header: 'Nombre'},
+          {key: 'episode', header: 'Episodio'},
+          {key: 'air_date', header: 'Fecha'}
+        ];
+        case 'location':
+          return [
+            {key: 'name', header: 'Nombre'},
+            {key: 'type', header: 'Tipo'},
+            {key: 'dimension', header: 'Dimensión'}
+          ]
+    
+      default:
+        return[];
+    }
+  });
+
+  /** El filtro de estatus solo se aplica en characters */
+  isStatusDisabled = computed(()=> this.activeResource() !== 'character');
 
   /** Cierra el modal */
   closeModal(): void {

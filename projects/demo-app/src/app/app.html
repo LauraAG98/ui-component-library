@@ -21,6 +21,7 @@
       <ui-select
         label="Estado del personaje"
         placeholder="Selecciona una opción..."
+        [disabled]="isStatusDisabled()"
         [options]="statusOptions"
         (selectionChange) = "onStatusChange($event)">
       </ui-select>
@@ -28,7 +29,7 @@
 
      <!-- Tabla -->
       <ui-table
-        [columns]="columns"
+        [columns]="columns()"
         [rows]="rows()"
         [loading]="loading()"
         [errorMessage]="errorMessage()"

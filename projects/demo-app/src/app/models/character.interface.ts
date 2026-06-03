@@ -11,4 +11,5 @@
     episode: string[];
     url: string;
     created: string;
+    [key: string]: unknown;
  }
