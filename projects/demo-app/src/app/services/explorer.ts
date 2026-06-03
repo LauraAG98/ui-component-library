@@ -1,8 +1,5 @@
 import { Injectable, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Character } from '../models/character.interface';
-import { Episode } from '../models/episode.interface';
-import { Location } from '../models/location.interface';
 
 export type ResourceType = 'character' | 'episode' | 'location';
 
