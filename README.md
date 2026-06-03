@@ -56,7 +56,7 @@ Después de cumplir con los requisitos anteriores se debe clonar el proyecto con
 
 Cuando se haya finalizado la clonación, se aplica el comando para quedar ubicado dentro del proyecto, y para realizar la instalación de las dependencias:
 ```bash 
-cd (ubicación del proyecto)/my-workspace
+cd my-workspace
 npm install
 ```
 
@@ -88,7 +88,7 @@ ng serve demo-app
 <ui-button label="Cerrar" variant="secondary" (clicked)="closeModal()"></ui-button>
 ```
 
-### ui-card>
+### ui-card
 
 | Tipo | Nombre | Tipo TS | Descripción |
 |------|--------|---------|-------------|
@@ -102,24 +102,6 @@ ng serve demo-app
 ```html
 <ui-card title="Detalle" elevation="raised">
 
-    <div class = "flex flex-col gap-2 max-h-[80vh] overflow-y-auto pr-2">
-        @if(selectedRow()!['image']) {
-            <img [src] = "selectedRow()!['image']" class = "w-20 h-20 rounded-full border-2 border-portal mb-4">
-              }
-
-              @for(entry of objectEntries(selectedRow()!); track entry [0]){
-                @if(!isObject(entry[1]) && entry[1] !== ''){
-                  <div class = "flex gap-2">
-                    <span class = "font-orbitron text-xs text-portal min-w-32">{{getLabel (entry[0])}}</span>
-                    <span class = "font-exo text-sm text-gray-200">{{entry[1]}}</span>
-                  </div>
-                }
-            }
-    </div>
-
-    <div class = "mt-4">
-        <ui-button label="Cerrar" variant="secondary" (clicked)="closeModal()"></ui-button>
-    </div>
 </ui-card>
 ```
 
@@ -181,5 +163,6 @@ ng serve demo-app
 
 * Diseño visual: Opté por hacer un diseño futurista, teniendo en cuenta los colores que se manejan en la serie, se uso principalmente el color verde haciendo referencia a los portales que se pueden observar y un color oscuro en el fondo para que los componentes y elementos resaltarán.
 * Arquitectura: Decidí separar los elementos dentro de cada proyecto para mantener el orden durante el desarrollo, además, para que este permita modificaciones a futuro.    
-* Gestión de estado con signals: Usé signals para guardar información y así indicarle a angular que sucedió un cambio dentro de la aplicación, y así actualizar la vista para el usuario.     
-* Se agrega una condicional (switch) para clasificar los estilos que van a tener los elementos, se usa computed para guardar el estilo y reutilizarlo mientras la variante no cambie, evitando que angular ejecute la condicional a una acción del usuario que no requiera de esta.  
+* Gestión de estado con signals: Usé signals para guardar información y así indicarle a angular que sucedió un cambio dentro de la aplicación, actualizando la vista para el usuario.     
+* Se agrega una condicional (switch) para clasificar los estilos que van a tener los elementos, se usa computed para guardar el estilo y reutilizarlo según la variante, evitando que angular ejecute la condicional a cada acción que realice del usuario.  
+* Modal reutilizable: Apliqué un modal reutilizable para los tres recursos, evitando crear una vista para cada uno, lo que se hace es evaluar la información y de acuerdo a esto se ocultan elementos si se requiere. 
