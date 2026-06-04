@@ -1,9 +1,6 @@
 import { Component, ChangeDetectionStrategy, inject, signal, computed } from '@angular/core';
 import { ExplorerService, ResourceType } from './services/explorer';
 import { ButtonComponent, CardComponent, SelectComponent, TableComponent, SelectOption, TableAction, TableColumn } from 'ui-lib';
-import { Character } from './models/character.interface';
-import { Episode } from './models/episode.interface';
-import { Location } from './models/location.interface';
 import { CommonModule } from '@angular/common';
 
 @Component({
@@ -15,6 +12,39 @@ import { CommonModule } from '@angular/common';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class App {
+
+/** Muestra las estrellas cuando carga el componente */
+ngOnInit(): void {
+  this.generateStars();
+}
+
+/** Crea las estrellas y las ubica aleatoriamente en el fondo */
+generateStars(): void {
+  /** Se obtiene el contenedor donde se van a agregar las estrellas */
+  const container = document.getElementById('stars');
+
+  /** Si no encuentra el contenedor no hace nada */
+  if (!container) return;
+  
+  /** Se crean 150 estrellas con tamaño, posición y velocidad aleatoria */
+  for (let i = 0; i < 150; i++) {
+    const star = document.createElement('div');
+    star.classList.add('star');
+
+    /** Tamaño aleatorio entre 0 y 3px */
+    star.style.width = `${Math.random() * 3}px`;
+    star.style.height = star.style.width;
+
+    /** Posición aleatoria en la pantalla */
+    star.style.left = `${Math.random() * 100}%`;
+    star.style.top = `${Math.random() * 100}%`;
+
+    /** Tiempo de inicio y duración del parpadeo aleatorio */
+    star.style.animationDelay = `${Math.random() * 3}s`;
+    star.style.animationDuration = `${2 + Math.random() * 3}s`;
+    container.appendChild(star);
+  }
+}
   
   /** Se inyecta el servicio */
   private explorer = inject(ExplorerService);
@@ -66,9 +96,9 @@ export class App {
 
   /** Opciones para el filtro de status*/
   statusOptions: SelectOption[] = [
-    {label: 'Vivo', value: 'Alive'},
-    {label: 'Muerto', value: 'Dead'},
-    {label: 'Desconocido', value: 'unknown'}
+    {label: 'Alive', value: 'Alive'},
+    {label: 'Dead', value: 'Dead'},
+    {label: 'Unknown', value: 'unknown'}
   ];
 
   /** Cambia el recurso activo */
