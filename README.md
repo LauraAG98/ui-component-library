@@ -161,7 +161,7 @@ ng serve demo-app
 
 ## Decisiones de diseño
 
-* Diseño visual: Opté por hacer un diseño futurista, teniendo en cuenta los colores que se manejan en la serie, se uso principalmente el color verde haciendo referencia a los portales que se pueden observar y un color oscuro en el fondo para que los componentes y elementos resaltarán.
+* Diseño visual: Opté por hacer un diseño futurista, teniendo en cuenta los colores que se manejan en la serie, se uso principalmente el color verde haciendo referencia a los portales que se pueden observar y un color oscuro en el fondo para que los componentes y elementos resaltarán, además se agregaron estrellas lo que referencia a los viajes que realizan los personajes a través del multiverso.
 * Arquitectura: Decidí separar los elementos dentro de cada proyecto para mantener el orden durante el desarrollo, además, para que este permita modificaciones a futuro.    
 * Gestión de estado con signals: Usé signals para guardar información y así indicarle a angular que sucedió un cambio dentro de la aplicación, actualizando la vista para el usuario.     
 * Se agrega una condicional (switch) para clasificar los estilos que van a tener los elementos, se usa computed para guardar el estilo y reutilizarlo según la variante, evitando que angular ejecute la condicional a cada acción que realice del usuario.  
